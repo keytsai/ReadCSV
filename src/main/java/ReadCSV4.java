@@ -16,7 +16,6 @@ public class ReadCSV4 {
 
 		ReadCSV4 test = new ReadCSV4();
 		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest2/");
-		
 //		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/CUR1/");
 		test.displayDirectoryFiles(currentDir);
 	}
@@ -32,12 +31,10 @@ public class ReadCSV4 {
 					FileInputStream fi = new FileInputStream(file);
 					ZipInputStream zi = new ZipInputStream(new BufferedInputStream(fi));
 					ZipEntry ze = null;
-					
+
 					while ((ze = zi.getNextEntry()) != null) {
 
 //						System.out.println("csv名稱：" + ze.getName());
-
-						
 
 						int countLine = 0;
 						String line = "";
@@ -54,11 +51,10 @@ public class ReadCSV4 {
 							}
 
 							map.remove("lineItem/UsageAccountId");
-							
+
 						} catch (IOException e) {
 							e.printStackTrace();
 						}
-
 					}
 					zi.closeEntry();
 					fi.close();
