@@ -1,3 +1,4 @@
+package ken.read.csv;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -7,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 public class ReadCSV4 {
@@ -15,7 +15,8 @@ public class ReadCSV4 {
 	public static void main(String[] args) {
 
 		ReadCSV4 test = new ReadCSV4();
-		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest2/");
+		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/");
+//		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest2/");
 //		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/CUR1/");
 		test.displayDirectoryFiles(currentDir);
 	}
@@ -30,9 +31,10 @@ public class ReadCSV4 {
 				} else {
 					FileInputStream fi = new FileInputStream(file);
 					ZipInputStream zi = new ZipInputStream(new BufferedInputStream(fi));
-					ZipEntry ze = null;
+//					@SuppressWarnings("unused")
+//					ZipEntry ze = null;
 
-					while ((ze = zi.getNextEntry()) != null) {
+					while ((zi.getNextEntry()) != null) {
 
 //						System.out.println("csv名稱：" + ze.getName());
 
