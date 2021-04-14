@@ -11,18 +11,19 @@ import java.util.Map;
 import java.util.zip.ZipInputStream;
 
 public class ReadCSV4 {
-	@SuppressWarnings("static-access")
+//	@SuppressWarnings("static-access")
 	public static void main(String[] args) {
 
 		ReadCSV4 test = new ReadCSV4();
-		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/");
-//		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest2/");
+		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR");
+//		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest4/");
 //		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/CUR1/");
 		test.displayDirectoryFiles(currentDir);
 	}
 
-	public static void displayDirectoryFiles(File dir) {
-		Map<String, Integer> map = new HashMap<>();
+	Map<String, Integer> map = new HashMap<>();
+	public void displayDirectoryFiles(File dir) {
+		
 		try {
 			File[] files = dir.listFiles();
 			for (File file : files) {
@@ -62,11 +63,12 @@ public class ReadCSV4 {
 					fi.close();
 				}
 			}
-			for (String i : map.keySet()) {
-				System.out.println("UsageAccountId：" + i + "   行數：" + map.get(i));
-			}
+//			for (String i : map.keySet()) {
+//				System.out.println("UsageAccountId：" + i + "   行數：" + map.get(i));
+//			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		System.out.println(map);
 	}
 }

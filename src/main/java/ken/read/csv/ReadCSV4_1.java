@@ -4,34 +4,30 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
-import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ReadCSV4_1 {
-	@SuppressWarnings("static-access")
 	public static void main(String[] args) throws IOException {
 
 		ReadCSV4_1 test = new ReadCSV4_1();
-//		File currentDir = new File("/Users/ckts/Coding/readTest/0001");
-//		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/");
-		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest2/");
+		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/");
+//		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest2/");
 //		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/CUR1/");
 		test.displayDirectoryFiles(currentDir);
 	}
-	
+	Map<String, Integer> map = new HashMap<>();
 
-	public static void displayDirectoryFiles(File dir) throws IOException {
-		Map<String, Integer> map = new HashMap<>();
+	public void displayDirectoryFiles(File dir) throws IOException {
+		
 		ObjectMapper objectMapper = new ObjectMapper();
-		FileOutputStream fos = new FileOutputStream(new File("/Users/ckts/Coding/readTest/kkk.json"));
-		JsonGenerator g = objectMapper.getFactory().createGenerator(fos);
+//		FileOutputStream fos = new FileOutputStream(new File("/Users/ckts/Coding/readTest/kkk.json"));
+//		JsonGenerator g = objectMapper.getFactory().createGenerator(fos);
 		try {
 			File[] files = dir.listFiles();
 			for (File file : files) {
@@ -58,12 +54,9 @@ public class ReadCSV4_1 {
 
 								countLine = map.containsKey(cells[8]) ? map.get(cells[8]) : 0;
 								map.put(cells[8], countLine + 1);
-
 							}
 
 							map.remove("lineItem/UsageAccountId");
-
-							
 
 						} catch (IOException e) {
 							e.printStackTrace();
@@ -73,15 +66,12 @@ public class ReadCSV4_1 {
 					fi.close();
 				}
 			}
-			for (String i : map.keySet()) {
-				System.out.println("UsageAccountId：" + i + "   行數：" + map.get(i));
-				
-			}
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		objectMapper.writeValue(g, map);
+//		System.out.println(map);
+		objectMapper.writeValue(new File("/Users/ckts/Coding/readTest/kkk.json"), map);
 	}
 	
 }

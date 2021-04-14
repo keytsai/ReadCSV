@@ -2,6 +2,7 @@ package ken.read.csv;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
@@ -22,17 +23,18 @@ public class ReadCSV1 {
 
 			@SuppressWarnings("unused")
 			String[] nextLine;
-
-			int countLine = 0;
+			AtomicInteger count = new AtomicInteger(0);
+//			int countLine = 0;
 
 			try {
 				while ((nextLine = reader.readNext()) != null) {
-					countLine++;
+//					countLine++;
+					count.getAndIncrement();
 				}
 			} catch (CsvValidationException e) {
 				e.printStackTrace();
 			}
-			System.out.format("有" + countLine + "行");
+			System.out.format("有" + count + "行");
 
 			reader.close();
 			isr.close();
