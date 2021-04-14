@@ -10,24 +10,42 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipInputStream;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class ReadCSV4_1 {
+
 	public static void main(String[] args) throws IOException {
 
-		ReadCSV4_1 test = new ReadCSV4_1();
 		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/");
-//		File currentDir = new File("/Users/ckts/Coding/readTest/CURTest2/");
-//		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/CUR1/");
-		test.displayDirectoryFiles(currentDir);
+		String writeToJsonFilePath = "/Users/ckts/Coding/readTest/ken_feb.json";
+
+		ReadCSV4_1 writeToJsonFile = new ReadCSV4_1();
+		writeToJsonFile.writeJson(currentDir, writeToJsonFilePath);
+
 	}
+
 	Map<String, Integer> map = new HashMap<>();
+	ObjectMapper objectMapper = new ObjectMapper();
+
+	public void writeJson(File currentDir, String writeToJsonFilePath) throws IOException {
+		displayDirectoryFiles(currentDir);
+//		System.out.println(map);
+
+		try {
+			objectMapper.writeValue(new File(writeToJsonFilePath), map);
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 	public void displayDirectoryFiles(File dir) throws IOException {
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-//		FileOutputStream fos = new FileOutputStream(new File("/Users/ckts/Coding/readTest/kkk.json"));
-//		JsonGenerator g = objectMapper.getFactory().createGenerator(fos);
 		try {
 			File[] files = dir.listFiles();
 			for (File file : files) {
@@ -38,40 +56,38 @@ public class ReadCSV4_1 {
 					ZipInputStream zi = new ZipInputStream(new BufferedInputStream(fi));
 
 					while ((zi.getNextEntry()) != null) {
-
-//						System.out.println("csv名稱：" + ze.getName());
-
-						int countLine = 0;
-//						AtomicInteger count = new AtomicInteger(0);
-						String line = "";
-						String splitBy = ",";
-
-						try {
-							BufferedReader br = new BufferedReader(new InputStreamReader(zi));
-							while ((line = br.readLine()) != null) {
-
-								String[] cells = line.split(splitBy);
-
-								countLine = map.containsKey(cells[8]) ? map.get(cells[8]) : 0;
-								map.put(cells[8], countLine + 1);
-							}
-
-							map.remove("lineItem/UsageAccountId");
-
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						readCSV(zi);
 					}
+
 					zi.closeEntry();
 					fi.close();
 				}
 			}
 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void readCSV(ZipInputStream zi) throws IOException {
+
+		int countLine = 0;
+		String line = "";
+		String splitBy = ",";
+
+		try {
+			BufferedReader br = new BufferedReader(new InputStreamReader(zi));
+			while ((line = br.readLine()) != null) {
+
+				String[] cells = line.split(splitBy);
+				countLine = map.containsKey(cells[8]) ? map.get(cells[8]) : 0;
+				map.put(cells[8], countLine + 1);
+			}
+			map.remove("lineItem/UsageAccountId");
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-//		System.out.println(map);
-		objectMapper.writeValue(new File("/Users/ckts/Coding/readTest/kkk.json"), map);
 	}
-	
+
 }
