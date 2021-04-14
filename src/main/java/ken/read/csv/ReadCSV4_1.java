@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipInputStream;
 
 import com.fasterxml.jackson.core.JsonGenerationException;
@@ -17,13 +18,19 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class ReadCSV4_1 {
 
 	public static void main(String[] args) throws IOException {
-
+		
+		long startTime = System.currentTimeMillis();
+		System.out.println("開始執行");
+		
 		File currentDir = new File("/Users/ckts/Coding/newBilling3/amazon-billing/CUR/");
 		String writeToJsonFilePath = "/Users/ckts/Coding/readTest/ken_feb.json";
 
 		ReadCSV4_1 writeToJsonFile = new ReadCSV4_1();
 		writeToJsonFile.writeJson(currentDir, writeToJsonFilePath);
 
+		long endTime = System.currentTimeMillis();
+		long totalSeconds = TimeUnit.MILLISECONDS.toSeconds(endTime-startTime);
+        System.out.println("完成，執行時間："+totalSeconds +"秒");
 	}
 
 	Map<String, Integer> map = new HashMap<>();
